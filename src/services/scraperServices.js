@@ -49,11 +49,17 @@ async function scrapeProfile(url) {
         await page.waitForSelector('body');
 
         const bodyText = await page.evaluate(() => document.body.innerText);
+        const normalizedText = bodyText
+            .replace(/\[at\]/gi, '@')
+            .replace(/\(at\)/gi, '@')
+            .replace(/\[dot\]/gi, '.')
+            .replace(/\(dot\)/gi, '.');
+
 
         const emailRegex = /\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b/gi;
         const phoneRegex = /(\+?\d[\d\s\-()]{7,}\d)/g;
 
-        const emailMatches = bodyText.match(emailRegex) || [];
+        const emailMatches = normalizedText.match(emailRegex) || [];
         const phoneMatches = bodyText.match(phoneRegex) || [];
 
         const emailsFromLinks = await page.evaluate(() => {
