@@ -21,7 +21,7 @@ Headers: Content-Type: application/json
 Body (raw JSON):
 
 {
-  "url": "https://www.scrapethissite.com/pages/contact/"
+  "url": "https://www.example"
 }
 
 
