@@ -1,15 +1,8 @@
 const puppeteer = require('puppeteer-extra');
 const StealthPlugin = require('puppeteer-extra-plugin-stealth');
-const RecaptchaPlugin = require('puppeteer-extra-plugin-recaptcha');
 const fs = require('fs').promises;
 
 puppeteer.use(StealthPlugin());
-puppeteer.use(
-    RecaptchaPlugin({
-        provider: { id: '2captcha', token: process.env.CAPTCHA_KEY },
-        visualFeedback: true
-    })
-);
 
 async function scrapeProfile(url) {
     let browser;
