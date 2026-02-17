@@ -15,6 +15,10 @@ async function scrapeAndSave(req, res) {
 
         const scrapedData = await scrapeProfile(url);
 
+        if (scrapedData.success === false) {
+            return res.status(200).json(scrapedData);
+        }
+
         const savedProfile = await Profile.findOneAndUpdate(
             { sourceUrl: scrapedData.sourceUrl },
             scrapedData,
@@ -27,27 +31,30 @@ async function scrapeAndSave(req, res) {
         });
 
     } catch (error) {
+        console.error("Controller error:", error.message);
+
         return res.status(500).json({
             success: false,
-            message: error.message
+            message: "Internal server error"
         });
     }
 }
-
 
 async function getProfiles(req, res) {
     try {
         const profiles = await Profile.find().sort({ createdAt: -1 });
 
-        res.status(200).json({
+        return res.status(200).json({
             count: profiles.length,
             data: profiles
         });
 
     } catch (error) {
-        res.status(500).json({
+        console.error("Fetch error:", error.message);
+
+        return res.status(500).json({
             success: false,
-            message: error.message
+            message: "Internal server error"
         });
     }
 }
