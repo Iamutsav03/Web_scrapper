@@ -20,14 +20,18 @@ async function scrapeAndSave(req, res) {
         if (url.includes("linkedin.com")) {
             const apifyRawData = await scrapeLinkedInWithApify(url);
 
+            console.log("Apify raw response:", apifyRawData);
+
             const normalized = normalizeLinkedInData(apifyRawData, url);
 
             if (!normalized) {
                 return res.status(400).json({
                     success: false,
-                    message: "No data returned from Apify"
+                    message: "No data returned from Apify",
+                    raw: apifyRawData
                 });
             }
+
 
             const savedProfile = await Profile.findOneAndUpdate(
                 { sourceUrl: normalized.sourceUrl },

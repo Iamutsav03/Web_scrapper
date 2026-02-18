@@ -6,12 +6,19 @@ const client = new ApifyClient({
 
 async function scrapeLinkedInWithApify(profileUrl) {
     try {
-        // Run actor and wait for completion
-        const run = await client.actor("2SyF0bVxmgGr8IVCZ").call({
-            profileUrls: [profileUrl],
-        });
+        const input = {
+            urls: [
+                { url: profileUrl }
+            ],
+            findContacts: false
+        };
 
-        // Get results from dataset
+        // Run actor and wait until finished
+        const run = await client
+            .actor("yZnhB5JewWf9xSmoM")
+            .call(input);
+
+        // Get dataset results
         const { items } = await client
             .dataset(run.defaultDatasetId)
             .listItems();
@@ -19,7 +26,7 @@ async function scrapeLinkedInWithApify(profileUrl) {
         return items;
 
     } catch (error) {
-        console.error("Apify error:", error.message);
+        console.error("Apify scraping failed:", error.message);
         throw error;
     }
 }
