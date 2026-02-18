@@ -2,6 +2,7 @@ const scrapeProfile = require("../services/scraperServices");
 const Profile = require("../models/profile");
 const validator = require("validator");
 const scrapeLinkedInWithApify = require("../services/apifyService");
+const normalizeLinkedInData = require("../utils/normalizeLinkedIn");
 
 async function scrapeAndSave(req, res) {
     try {
@@ -15,22 +16,40 @@ async function scrapeAndSave(req, res) {
         }
 
 
-        if (url.includes("linkedin.com")) {
-            const apifyData = await scrapeLinkedInWithApify(url);
 
-            return res.status(200).json({
+        if (url.includes("linkedin.com")) {
+            const apifyRawData = await scrapeLinkedInWithApify(url);
+
+            const normalized = normalizeLinkedInData(apifyRawData, url);
+
+            if (!normalized) {
+                return res.status(400).json({
+                    success: false,
+                    message: "No data returned from Apify"
+                });
+            }
+
+            const savedProfile = await Profile.findOneAndUpdate(
+                { sourceUrl: normalized.sourceUrl },
+                normalized,
+                { new: true, upsert: true }
+            );
+
+
+            return res.status(201).json({
                 success: true,
                 source: "apify",
-                data: apifyData,
+                data: savedProfile
             });
         }
+
 
 
 
         const scrapedData = await scrapeProfile(url);
 
         if (scrapedData.success === false) {
-            return res.status(200).json(scrapedData); 
+            return res.status(200).json(scrapedData);
         }
 
         const savedProfile = await Profile.findOneAndUpdate(
