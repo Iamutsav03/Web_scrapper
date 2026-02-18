@@ -5,18 +5,19 @@ function normalizeLinkedInData(apifyData, url) {
 
     const profile = apifyData[0];
 
-    const name = profile.fullName ||
+    const name =
+        profile.fullName ||
         `${profile.firstName || ""} ${profile.lastName || ""}`.trim();
 
     if (!name) return null;
 
     return {
         name,
-        emails: profile.emailAddress ? [profile.emailAddress] : [],
-        phones: profile.primaryPhone ? [profile.primaryPhone] : [],
+        emails: [], // LinkedIn public usually has none
+        phones: [],
+        linkedinData: profile, // store full LinkedIn structured data
         sourceUrl: url,
-        scrapedAt: new Date(),
-        source: "apify"
+        scrapedAt: new Date()
     };
 }
 

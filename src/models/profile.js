@@ -14,6 +14,10 @@ const profileSchema = new mongoose.Schema(
         phones: [{
             type: String
         }],
+        linkedinData: {
+            type: Object,
+            default: null
+        },
         sourceUrl: {
             type: String,
             required: true,
