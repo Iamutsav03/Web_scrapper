@@ -1,6 +1,7 @@
 const scrapeProfile = require("../services/scraperServices");
 const Profile = require("../models/profile");
 const validator = require("validator");
+const scrapeLinkedInWithApify = require("../services/apifyService");
 
 async function scrapeAndSave(req, res) {
     try {
@@ -13,10 +14,23 @@ async function scrapeAndSave(req, res) {
             });
         }
 
+
+        if (url.includes("linkedin.com")) {
+            const apifyData = await scrapeLinkedInWithApify(url);
+
+            return res.status(200).json({
+                success: true,
+                source: "apify",
+                data: apifyData,
+            });
+        }
+
+
+
         const scrapedData = await scrapeProfile(url);
 
         if (scrapedData.success === false) {
-            return res.status(200).json(scrapedData);
+            return res.status(200).json(scrapedData); 
         }
 
         const savedProfile = await Profile.findOneAndUpdate(
