@@ -10,6 +10,14 @@ async function exportProfiles(req, res) {
 
         worksheet.columns = [
             { header: 'Name', key: 'name', width: 25 },
+            { header: 'Headline', key: 'headline', width: 35 },
+            { header: 'Job Title', key: 'jobTitle', width: 25 },
+            { header: 'Company Name', key: 'companyName', width: 25 },
+            { header: 'Location', key: 'location', width: 25 },
+            { header: 'Industry', key: 'industry', width: 25 },
+            { header: 'Followers', key: 'followers', width: 15 },
+            { header: 'Skills', key: 'skills', width: 40 },
+            { header: 'Educations', key: 'educations', width: 40 },
             { header: 'Emails', key: 'emails', width: 30 },
             { header: 'Phones', key: 'phones', width: 20 },
             { header: 'Source URL', key: 'sourceUrl', width: 40 },
@@ -18,11 +26,19 @@ async function exportProfiles(req, res) {
 
         profiles.forEach(profile => {
             worksheet.addRow({
-                name: profile.name,
+                name: profile.name || '',
+                headline: profile.headline || '',
+                jobTitle: profile.jobTitle || '',
+                companyName: profile.companyName || '',
+                location: profile.location || '',
+                industry: profile.industry || '',
+                followers: profile.followers || 0,
+                skills: Array.isArray(profile.skills) ? profile.skills.join(', ') : '',
+                educations: Array.isArray(profile.educations) ? profile.educations.join(', ') : '',
                 emails: Array.isArray(profile.emails) ? profile.emails.join(', ') : '',
                 phones: Array.isArray(profile.phones) ? profile.phones.join(', ') : '',
-                sourceUrl: profile.sourceUrl,
-                scrapedAt: profile.scrapedAt
+                sourceUrl: profile.sourceUrl || '',
+                scrapedAt: profile.scrapedAt || ''
             });
         });
 

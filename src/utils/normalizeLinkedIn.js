@@ -13,9 +13,18 @@ function normalizeLinkedInData(apifyData, url) {
 
     return {
         name,
-        emails: [], // LinkedIn public usually has none
+        headline: profile.headline || "",
+        jobTitle: profile.jobTitle || "",
+        companyName: profile.companyName || "",
+        location: profile.geoLocationName || "",
+        industry: profile.industryName || "",
+        followers: profile.followers || 0,
+        skills: profile.skills || [],
+        educations: profile.educations
+            ? profile.educations.map(e => e.schoolName || "")
+            : [],
+        emails: [],
         phones: [],
-        linkedinData: profile, // store full LinkedIn structured data
         sourceUrl: url,
         scrapedAt: new Date()
     };
