@@ -1,6 +1,6 @@
 const GoogleBusiness = require("../models/googleBusinessModel");
 const runGoogleMapsScraper = require("../services/googleMapsService");
-const normalizeGoogleData = require("../utils/normalizeGoogleData");
+const normalizeGoogleData = require("../utils/normalizeGoogleBusiness");
 
 exports.scrapeGoogleMaps = async (req, res) => {
 
