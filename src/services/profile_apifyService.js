@@ -13,12 +13,10 @@ async function scrapeLinkedInWithApify(profileUrl) {
             findContacts: false
         };
 
-        // Run actor and wait until finished
         const run = await client
             .actor("yZnhB5JewWf9xSmoM")
             .call(input);
 
-        // Get dataset results
         const { items } = await client
             .dataset(run.defaultDatasetId)
             .listItems();

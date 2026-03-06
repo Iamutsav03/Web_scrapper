@@ -1,7 +1,7 @@
 const scrapeProfile = require("../services/scraperServices");
 const Profile = require("../models/profile");
 const validator = require("validator");
-const scrapeLinkedInWithApify = require("../services/apifyService");
+const scrapeLinkedInWithApify = require("../services/profile_apifyService");
 const normalizeLinkedInData = require("../utils/normalizeLinkedIn");
 
 async function scrapeAndSave(req, res) {
