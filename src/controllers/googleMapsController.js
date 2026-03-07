@@ -1,6 +1,7 @@
 const GoogleBusiness = require("../models/googleBusinessModel");
 const runGoogleMapsScraper = require("../services/googleMapsService");
 const normalizeGoogleData = require("../utils/normalizeGoogleBusiness");
+const exportToGoogleSheets = require("../services/googleSheetsExporter");
 
 console.log("runGoogleMapsScraper:", runGoogleMapsScraper);
 console.log("runGoogleMapsScraper type:", typeof runGoogleMapsScraper);
@@ -29,7 +30,6 @@ exports.scrapeGoogleMaps = async (req, res) => {
             }
 
         }
-
         res.json({
             message: "Scraping completed",
             saved: saved.length
@@ -61,4 +61,35 @@ exports.getGoogleBusinesses = async (req, res) => {
         });
 
     }
+};
+
+exports.exportGoogleBusinesses = async (req, res) => {
+
+    try {
+
+        const businesses = await GoogleBusiness.find();
+
+        if (businesses.length === 0) {
+            return res.json({
+                message: "No data to export"
+            });
+        }
+
+        await exportToGoogleSheets(businesses);
+
+        res.json({
+            message: "Exported successfully",
+            total: businesses.length
+        });
+
+    } catch (error) {
+
+        console.error(error);
+
+        res.status(500).json({
+            error: "Export failed"
+        });
+
+    }
+
 };
