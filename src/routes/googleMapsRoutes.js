@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
 
-const { scrapeGoogleMaps } = require("../controllers/googleMapsController");
+const { scrapeGoogleMaps, getGoogleBusinesses } = require("../controllers/googleMapsController");
 
-router.post("/scrape_google_maps", scrapeGoogleMaps);
-
+router.post("/scrape-google-maps", scrapeGoogleMaps);
+router.get("/google-businesses", getGoogleBusinesses);
 module.exports = router;

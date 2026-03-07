@@ -41,3 +41,24 @@ exports.scrapeGoogleMaps = async (req, res) => {
     }
 
 };
+
+exports.getGoogleBusinesses = async (req, res) => {
+    try {
+
+        const businesses = await GoogleBusiness.find().limit(100);
+
+        res.json({
+            total: businesses.length,
+            data: businesses
+        });
+
+    } catch (error) {
+
+        console.error(error);
+
+        res.status(500).json({
+            error: "Failed to fetch businesses"
+        });
+
+    }
+};
