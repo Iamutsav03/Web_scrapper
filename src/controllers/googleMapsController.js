@@ -33,8 +33,14 @@ exports.scrapeGoogleMaps = async (req, res) => {
         });
 
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: "Scraping failed" });
-    }
+
+    console.error("SCRAPER ERROR:", error);
+
+    res.status(500).json({
+        error: "Scraping failed",
+        message: error.message
+    });
+
+}
 
 };
