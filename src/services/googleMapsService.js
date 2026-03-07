@@ -1,10 +1,10 @@
-import { ApifyClient } from "apify-client";
+const { ApifyClient } = require("apify-client");
 
 const client = new ApifyClient({
     token: process.env.APIFY_TOKEN
 });
 
-export async function runGoogleMapsScraper(query, location, maxResults) {
+async function runGoogleMapsScraper(query, location, maxResults) {
 
     const input = {
         searchStringsArray: [query],
@@ -14,7 +14,7 @@ export async function runGoogleMapsScraper(query, location, maxResults) {
         language: "en",
         searchMatching: "all",
 
-        scrapePlaceDetailPage: false,
+        scrapePlaceDetailPage: true,
         scrapeContacts: false,
         scrapeDirectories: false,
 
@@ -28,3 +28,5 @@ export async function runGoogleMapsScraper(query, location, maxResults) {
 
     return items;
 }
+
+module.exports = runGoogleMapsScraper;

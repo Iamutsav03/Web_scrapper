@@ -2,6 +2,9 @@ const GoogleBusiness = require("../models/googleBusinessModel");
 const runGoogleMapsScraper = require("../services/googleMapsService");
 const normalizeGoogleData = require("../utils/normalizeGoogleBusiness");
 
+console.log("runGoogleMapsScraper:", runGoogleMapsScraper);
+console.log("runGoogleMapsScraper type:", typeof runGoogleMapsScraper);
+
 exports.scrapeGoogleMaps = async (req, res) => {
 
     try {
@@ -33,14 +36,8 @@ exports.scrapeGoogleMaps = async (req, res) => {
         });
 
     } catch (error) {
-
-    console.error("SCRAPER ERROR:", error);
-
-    res.status(500).json({
-        error: "Scraping failed",
-        message: error.message
-    });
-
-}
+        console.error(error);
+        res.status(500).json({ error: "Scraping failed" });
+    }
 
 };
