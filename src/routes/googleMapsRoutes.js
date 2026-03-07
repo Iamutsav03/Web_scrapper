@@ -6,6 +6,5 @@ const { scrapeGoogleMaps, getGoogleBusinesses, exportGoogleBusinesses } = requir
 router.post("/scrape-google-maps", scrapeGoogleMaps);
 router.get("/google-businesses", getGoogleBusinesses);
 router.get("/export-google-sheet", exportGoogleBusinesses);
-console.log("Google Maps routes loaded");
 
 module.exports = router;
