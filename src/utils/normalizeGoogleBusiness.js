@@ -1,5 +1,4 @@
-export function normalizeGoogleBusiness(place) {
-
+function normalizeGoogleData(place) {
     return {
         name: place.title || null,
         category: place.categoryName || null,
@@ -8,5 +7,6 @@ export function normalizeGoogleBusiness(place) {
         rating: place.totalScore || null,
         placeId: place.placeId || null
     };
-
 }
+
+module.exports = normalizeGoogleData;
